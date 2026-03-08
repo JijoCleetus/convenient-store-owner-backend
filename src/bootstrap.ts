@@ -24,6 +24,7 @@ export const setupMiddleware = (app: Express): void => {
 
 export const setupHealthCheck = (app: Express): void => {
   app.get("/api/health", (req: Request, res: Response) => {
+    console.log("Health check requested", req);
     res.json({
       status: "healthy",
       timestamp: new Date().toISOString(),
@@ -44,8 +45,8 @@ export const setupErrorHandling = (app: Express): void => {
   });
 
   // Global error handler
-  app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-    console.error("Error:", err);
+  app.use((err: any, req: Request, res: Response) => {
+    console.error("Error:", req);
     res.status(err.status || 500).json({
       error: err.message || "Internal Server Error",
       ...(process.env.NODE_ENV === "development" && { stack: err.stack }),

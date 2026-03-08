@@ -33,7 +33,7 @@ setupHealthCheck(app);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 // Sample API routes (to be replaced with proper route files)
-app.get("/api/items", (req, res) => {
+app.get("/api/items", (_, res) => {
   const items = [
     { id: 1, name: "Laptop", category: "Electronics", price: 999, stock: 25 },
     {
@@ -48,7 +48,7 @@ app.get("/api/items", (req, res) => {
   res.json(items);
 });
 
-app.get("/api/offers", (req, res) => {
+app.get("/api/offers", (_, res) => {
   const offers = [
     {
       id: 1,

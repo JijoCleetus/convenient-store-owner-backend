@@ -62,13 +62,36 @@ router.post(
         },
       });
 
-      res.status(201).json({
+      // Generate JWT token
+      const jwtSecret = process.env.JWT_SECRET;
+      if (!jwtSecret) {
+        console.error("JWT_SECRET not configured");
+        return res.status(500).json({ error: "Internal server error" });
+      }
+
+      const token = jwt.sign(
+        {
+          id: user.id,
+          email: user.email,
+        },
+        jwtSecret,
+        {
+          expiresIn: "24h",
+        },
+      );
+
+      return res.status(201).json({
         message: "User created successfully",
-        user,
+        token,
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+        },
       });
     } catch (error) {
       console.error("Signup error:", error);
-      res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ error: "Internal server error" });
     }
   },
 );
@@ -127,7 +150,7 @@ router.post(
         },
       );
 
-      res.json({
+      return res.json({
         message: "Login successful",
         token,
         user: {
@@ -138,7 +161,7 @@ router.post(
       });
     } catch (error) {
       console.error("Login error:", error);
-      res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ error: "Internal server error" });
     }
   },
 );
