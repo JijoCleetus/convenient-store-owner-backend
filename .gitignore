@@ -8,7 +8,6 @@ yarn.lock
 .env.local
 
 # Build outputs
-dist/
 *.tsbuildinfo
 
 # IDE

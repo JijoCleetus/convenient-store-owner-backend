@@ -1,0 +1,14 @@
+import { Request, Response, NextFunction } from "express";
+declare global {
+    namespace Express {
+        interface Request {
+            user?: {
+                id: number;
+                email: string;
+            };
+        }
+    }
+}
+export declare const authMiddleware: (req: Request, res: Response, next: NextFunction) => void;
+export default authMiddleware;
+//# sourceMappingURL=auth.d.ts.map
